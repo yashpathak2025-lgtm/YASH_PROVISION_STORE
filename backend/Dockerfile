@@ -10,9 +10,9 @@ WORKDIR /app
 COPY backend/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/app ./app
-COPY alembic ./alembic
+COPY alembic ./db_migrations
 COPY alembic.ini ./alembic.ini
 COPY --from=frontend /frontend/dist ./app/static
 ENV PYTHONUNBUFFERED=1 PYTHONPATH=/app
 EXPOSE 8000
-CMD ["sh","-c","alembic upgrade head && exec uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+CMD ["sh","-c","alembic upgrade head && exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
