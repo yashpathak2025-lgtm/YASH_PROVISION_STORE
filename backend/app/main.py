@@ -173,6 +173,10 @@ class Setting(Base):
 
 pwd=CryptContext(schemes=["bcrypt"],deprecated="auto")
 app=FastAPI(title="YASH PROVISION STORE FINAL",version="5.1.0")
+
+@app.get("/api/health")
+def health():
+    return {"status":"ok"}
 origins=[x.strip() for x in os.getenv("CORS_ORIGINS","http://localhost:8000").split(",") if x.strip()]
 app.add_middleware(CORSMiddleware,allow_origins=origins,allow_credentials=False if "*" in origins else True,allow_methods=["GET","POST","PUT","PATCH","DELETE","OPTIONS"],allow_headers=["Authorization","Content-Type","X-Idempotency-Key"])
 
